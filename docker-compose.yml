@@ -1,17 +1,15 @@
 version: '3.8'
 services:
   db:
-    image: mysql:latest
+    image: postgres:latest
     container_name: challenge-poo-db
     environment:
-      MYSQL_ROOT_PASSWORD: challenge-poo
-      MYSQL_DATABASE: challenge-poo
-      MYSQL_USER: challenge-poo
-      MYSQL_PASSWORD: challenge-poo
+      POSTGRES_DB: challenge-poo
+      POSTGRES_USER: challenge-poo
+      POSTGRES_PASSWORD: challenge-poo
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
       - ./src/main/resources/db/init:/docker-entrypoint-initdb.d
     restart: unless-stopped
 
