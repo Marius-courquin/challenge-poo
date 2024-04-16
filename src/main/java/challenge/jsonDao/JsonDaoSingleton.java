@@ -1,41 +1,36 @@
-package jsonDao;
+package challenge.jsonDao;
 
-import Mapper.Mapper;
+import challenge.dao.StringDao;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
-import dao.Dao;
 import org.bson.UuidRepresentation;
 import org.mongojack.JacksonMongoCollection;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public abstract class JsonDaoSingleton<T, S> implements Dao<T> {
+public abstract class JsonDaoSingleton<T> implements StringDao<T> {
     private static MongoClient client;
-    protected JacksonMongoCollection<S> collection;
-    private Mapper<T, S> mapper;
+    protected JacksonMongoCollection<T> collection;
 
     private static final String DATABASE_HOST = "mongodb://localhost:27017";
-    private static final String DATABASE_NAME = "challenge-poo";
+    private static final String DATABASE_NAME = "design_pattern";
 
     static {
         client = MongoClients.create(DATABASE_HOST);
     }
 
-    protected JsonDaoSingleton(Class<S> entityClass, Mapper<T, S> mapperToUse) {
+    protected JsonDaoSingleton(Class<T> entityClass) {
         MongoDatabase database = client.getDatabase(DATABASE_NAME);
         collection = JacksonMongoCollection.builder()
                 .build(database, DATABASE_NAME, entityClass, UuidRepresentation.STANDARD);
-        mapper = mapperToUse;
     }
 
     public boolean create(T obj) {
         try {
-            S objectToCreate = mapper.fromDomain(obj);
-            collection.insertOne(objectToCreate);
+            collection.insertOne(obj);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,18 +39,16 @@ public abstract class JsonDaoSingleton<T, S> implements Dao<T> {
     }
 
     public T find(Class c, String id) {
-        return mapper.toDomain(collection.findOneById(id));
+        return collection.findOneById(id);
     }
 
     public List<T> findAll(Class c) {
-        var list = collection.find().into(new ArrayList<>());
-        return list.stream().map(mapper::toDomain).collect(Collectors.toList());
+        return collection.find().into(new ArrayList<>());
     }
 
     public boolean update(T obj) {
         try {
-            var objectToUpdate = mapper.fromDomain(obj);
-            collection.replaceOne(Filters.eq("_id", objectToUpdate), objectToUpdate);
+            collection.replaceOne(Filters.eq("_id", obj), obj);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,8 +58,7 @@ public abstract class JsonDaoSingleton<T, S> implements Dao<T> {
 
     public boolean delete(T obj) {
         try {
-            var objectToDelete = mapper.fromDomain(obj);
-            collection.deleteOne(Filters.eq("_id", objectToDelete));
+            collection.deleteOne(Filters.eq("_id", obj));
             return true;
         } catch (Exception e) {
             e.printStackTrace();

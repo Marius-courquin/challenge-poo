@@ -4,10 +4,10 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
   <persistence-unit name="default">
-    <class>metier.E_TypeBien</class>
-    <class>metier.E_CategorieSurfaceBien</class>
-    <class>metier.E_Adresse</class>
-    <class>metier.E_Bien</class>
+    <class>challenge.metier.E_TypeBien</class>
+    <class>challenge.metier.E_CategorieSurfaceBien</class>
+    <class>challenge.metier.E_Adresse</class>
+    <class>challenge.metier.E_Bien</class>
     <properties>
       <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/challenge-poo-db"/>
       <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>

@@ -1,4 +1,4 @@
-package dao;
+package challenge.dao;
 
 public enum PersistenceType {
     JPA,

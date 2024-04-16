@@ -1,4 +1,4 @@
-package dao;
+package challenge.dao;
 
 import java.util.List;
 
