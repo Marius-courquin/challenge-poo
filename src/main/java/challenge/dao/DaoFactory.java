@@ -1,15 +1,18 @@
 package challenge.dao;
 
+import challenge.domain.Meal;
+import challenge.domain.Symptom;
 import challenge.jsonDao.JsonDaoFactory;
-import challenge.jpaDaoSingleton.JpaDaoFactory;
 
 public abstract class DaoFactory {
-    public abstract Dao getDaoBien();
+    public abstract Dao<Meal> getDaoMeal();
+
+    public abstract Dao<Symptom> getDaoSymptom();
 
     public static DaoFactory getDaoFactory(PersistenceType type) {
         switch (type) {
             case JPA:
-                return new JpaDaoFactory();
+                return null;
             case JSON:
                 return new JsonDaoFactory();
             default:
