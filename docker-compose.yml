@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:latest
+    container_name: challenge-poo-db
+    environment:
+      MYSQL_ROOT_PASSWORD: challenge-poo
+      MYSQL_DATABASE: challenge-poo
+      MYSQL_USER: challenge-poo
+      MYSQL_PASSWORD: challenge-poo
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./src/main/resources/db/init:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:latest
+    container_name: challenge-poo-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: challenge-poo
+      MONGO_INITDB_ROOT_PASSWORD: challenge-poo
+      MONGO_INITDB_DATABASE: challenge-poo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mysql_data:
+  mongodb_data:
