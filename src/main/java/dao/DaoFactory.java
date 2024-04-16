@@ -1,15 +1,18 @@
 package dao;
 
-import jpaDaoSingleton.JpaDaoFactory;
+import domain.Meal;
+import domain.Symptom;
 import jsonDao.JsonDaoFactory;
 
 public abstract class DaoFactory {
-    public abstract Dao getDaoBien();
+    public abstract Dao<Meal> getDaoMeal();
+
+    public abstract Dao<Symptom> getDaoSymptom();
 
     public static DaoFactory getDaoFactory(PersistenceType type) {
         switch (type) {
             case JPA:
-                return new JpaDaoFactory();
+                return null;
             case JSON:
                 return new JsonDaoFactory();
             default:
